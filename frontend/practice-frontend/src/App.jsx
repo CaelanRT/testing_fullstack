@@ -22,22 +22,37 @@ function App() {
       });
   };
 
-  const handleSubmitPost = (e) => {
+  // const handleSubmitPost = (e) => {
+  //   e.preventDefault();
+
+  //   axios
+  //     .post("http://localhost:3000", {
+  //       post: post,
+  //     })
+  //     .then((response) => {
+  //       setResponse(response.data.post);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     })
+  //     .finally(() => {
+  //       console.log("Request completed");
+  //     });
+  const handleSubmitPost = async (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:3000", {
+    try {
+      const response = await axios.post("http://localhost:3000", {
         post: post,
-      })
-      .then((response) => {
-        setResponse(response.data.post);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        console.log("Request completed");
       });
+
+      console.log(response.data.post);
+      setResponse(response.data.post);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("Request completed");
+    }
   };
 
   return (
