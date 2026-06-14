@@ -17,6 +17,12 @@ app.post("/", (req, res) => {
   res.status(200).json({ post: post });
 });
 
+app.get("/projects", async (req, res) => {
+  const projects = await db.run(`SELECT * FROM projects`);
+
+  res.status(200).json({ projects: projects });
+});
+
 app.listen(port, () => {
   console.log("Server is listening on port 3000...");
 });

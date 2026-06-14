@@ -7,10 +7,13 @@ const db = new sqlite3.Database("database.db", (err) => {
   }
 });
 
-db.run(`CREATE TABLE IF NOT EXISTS users (
-        userid INTEGER PRIMARY KEY AUTOINCREMENT,
+db.run(`CREATE TABLE IF NOT EXISTS projects (
+        projectID INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        password TEXT NOT NULL
+        pmName TEXT NOT NULL,
+        techName TEXT NOT NULL,
+        description TEXT NOT NULL,
+        completionDate TEXT
     )`);
 
 module.exports = db;
