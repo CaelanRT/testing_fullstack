@@ -4,6 +4,13 @@ import Project from "./components/Project";
 
 function App() {
   const [projects, setProjects] = useState([]);
+  const [project, setProject] = useState({
+    name: "",
+    pmNAme: "",
+    techName: "",
+    description: "",
+    completionDate: "",
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,8 +80,29 @@ function App() {
             return <Project {...project} key={project.projectID} />;
           })
         ) : (
-          <h3>No projects to display</h3>
+          <h4>No projects to display</h4>
         )}
+      </section>
+      <section id="add form">
+        <form>
+          <h2>Create Project</h2>
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={project.name}
+            onChange={(e) => setProject({ ...project, name: e.target.value })}
+          />
+          <label htmlFor="pmName">Project Manager:</label>
+          <input type="text" id="pmName" name="pmName" />
+          <label htmlFor="techName">Technician:</label>
+          <input type="text" id="techName" name="techName" />
+          <label htmlFor="description">Description:</label>
+          <textarea name="description" id="description"></textarea>
+          <label htmlFor="date">Date:</label>
+          <input type="date" id="date" name="date" />
+        </form>
       </section>
     </>
   );
