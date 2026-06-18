@@ -18,9 +18,17 @@ app.post("/", (req, res) => {
 });
 
 app.get("/projects", async (req, res) => {
-  const projects = await db.run(`SELECT * FROM projects`);
+  const statement = "SELECT * FROM projects;";
 
-  res.status(200).json({ projects: projects });
+  db.all(statement, (err, rows) => {
+
+    if (err) {
+      res.status(500).json({msg: "Something went wrong, please try again."});
+    }
+
+    res.status(200).json(rows);
+
+  })
 });
 
 app.listen(port, () => {
