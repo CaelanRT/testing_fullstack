@@ -17,6 +17,7 @@ app.post("/", (req, res) => {
   res.status(200).json({ post: post });
 });
 
+// Getting all projects
 app.get("/projects", async (req, res) => {
   const statement = "SELECT * FROM projects;";
 
@@ -30,6 +31,23 @@ app.get("/projects", async (req, res) => {
 
   })
 });
+
+// Create Project
+app.post("/projects", async (req, res) => {
+  const {name, pmName, techName, description, completionDate} = req.body;
+  const params = [name, pmName, techName, description, completionDate];
+
+  const statement = 'INSERT INTO projects (name, pmName, techName, description, completionDate) VALUES (?, ?, ?, ?, ?)';
+
+  db.run(statement, params, function (err) {
+    if(err) {
+      res.status(400).json({msg:"Something went wrong, please try again."})
+    }
+
+    res.status(200).json({msg:`Row inserted with ID: ${this.lastID}`});
+  })
+  
+})
 
 app.listen(port, () => {
   console.log("Server is listening on port 3000...");
