@@ -49,6 +49,7 @@ app.post("/projects", async (req, res) => {
   
 })
 
+// build out delete on backend
 app.delete("/projects/:id", async (req, res) => {
   console.log(req.params);
 
