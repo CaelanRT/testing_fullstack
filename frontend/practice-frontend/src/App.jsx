@@ -15,13 +15,20 @@ function App() {
 
   // helper function to get all projects and set data into response state
   const fetchAllProjects = async () => {
-    
-    const response = await axios.get("http://localhost:3000/projects");
 
-       setProjects(response.data);
+    try {
+      const response = await axios.get("http://localhost:3000/projects");
+
+      setProjects(response.data);
+    } catch (error) {
+      console.log(error);
+      
+    } finally {
+      //console.log("fetchAllProjects completed.");
+      
+    }
       
   }
-
 
   // gets projects on load
   useEffect(() => {
@@ -32,31 +39,43 @@ function App() {
   const postProject = async () => {
 
     // putting an error message on screen if anything is missing
-    // if (!project.name || project.pmName || project.techName || project.description || project.completionDate) {
-    //   setFormError(true);
-    // }
+    if (!project.name || !project.pmName || !project.techName || !project.description || !project.completionDate) {
+      setFormError(true);
+      return
+    }
 
     // axios request to send the info to the backend
-
     try {
       const response = await axios.post("http://localhost:3000/projects", project);
       console.log(response.data.msg);
+
     } catch (error) {
       console.log(error);
     } finally {
-      console.log("Request complete");
+      //console.log("postProjects completed.");
       
     }
    
   }
 
   // handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    postProject();
-    fetchAllProjects();
+    // call postProject helper function
+    await postProject();
+
+    await fetchAllProjects();
     
+    // setting project to the empty object so that you have everything reset on the frontend
+    setProject({
+    name: "",
+    pmName: "",
+    techName: "",
+    description: "",
+    completionDate: "",
+  });
+
   };
 
   return (
