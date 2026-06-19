@@ -11,6 +11,7 @@ function App() {
     description: "",
     completionDate: "",
   });
+  const [formError, setFormError] = useState(false);
 
   // helper function to get all projects and set data into response state
   const fetchAllProjects = async () => {
@@ -21,14 +22,41 @@ function App() {
       
   }
 
+
+  // gets projects on load
   useEffect(() => {
     fetchAllProjects()
   }, []);
 
+  // Helper function to post projects to the server
+  const postProject = async () => {
+
+    // putting an error message on screen if anything is missing
+    // if (!project.name || project.pmName || project.techName || project.description || project.completionDate) {
+    //   setFormError(true);
+    // }
+
+    // axios request to send the info to the backend
+
+    try {
+      const response = await axios.post("http://localhost:3000/projects", project);
+      console.log(response.data.msg);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("Request complete");
+      
+    }
+   
+  }
+
+  // handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(project);
+    postProject();
+    fetchAllProjects();
+    
   };
 
   return (
@@ -43,7 +71,7 @@ function App() {
           <h4>No projects to display</h4>
         )}
       </section>
-      <section id="add form">
+      <section id="add-form">
         <form onSubmit={handleSubmit}>
           <h2>Create Project</h2>
           <label htmlFor="name">Name</label>
@@ -97,7 +125,10 @@ function App() {
             required
           />
           <button type="submit">Submit</button>
+          
         </form>
+        {/* conditionanlly rendering an error message even though there is  */}
+        {formError ? <p>Something went wrong, please try again.</p> : <></>}
       </section>
     </>
   );
