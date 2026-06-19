@@ -49,6 +49,13 @@ app.post("/projects", async (req, res) => {
   
 })
 
+app.delete("/projects/:id", async (req, res) => {
+  console.log(req.params);
+
+  res.send("ok");
+  
+})
+
 app.listen(port, () => {
   console.log("Server is listening on port 3000...");
 });

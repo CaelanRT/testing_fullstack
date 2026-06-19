@@ -20,6 +20,7 @@ function App() {
       const response = await axios.get("http://localhost:3000/projects");
 
       setProjects(response.data);
+      
     } catch (error) {
       console.log(error);
       
@@ -27,7 +28,7 @@ function App() {
       //console.log("fetchAllProjects completed.");
       
     }
-      
+
   }
 
   // gets projects on load
@@ -65,6 +66,7 @@ function App() {
     // call postProject helper function
     await postProject();
 
+    // call fetch projects to render the accurate ui state
     await fetchAllProjects();
     
     // setting project to the empty object so that you have everything reset on the frontend
@@ -78,13 +80,18 @@ function App() {
 
   };
 
+  const handleDelete = async () => {
+    console.log("push");
+    
+  }
+
   return (
     <>
       <h1>Projects</h1>
       <section id="projects">
         {projects.length > 0 ? (
           projects.map((project) => {
-            return <Project {...project} key={project.projectID} />;
+            return <Project {...project} key={project.projectID} deteleFunction={handleDelete}/>;
           })
         ) : (
           <h4>No projects to display</h4>
